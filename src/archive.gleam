@@ -7,6 +7,7 @@ pub type Handle
 type Option =
   atom.Atom
 
+/// Opens and reads archive to get handle with useful info for library
 pub fn zip_open(filename: String) -> Result(Handle, String) {
   atom.from_string("memory")
   |> result.map(fn(atm) {
@@ -36,6 +37,7 @@ pub fn zip_get(
   })
 }
 
+/// opens file from zip archive
 @external(erlang, "zip", "zip_get")
 fn do_zip_get(
   filename: List(UtfCodepoint),
