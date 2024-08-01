@@ -1,40 +1,23 @@
-import gleam/erlang/atom
-import gleam/result
+import gleam/pair
 import gleam/string
 
-pub type Handle
+pub type Xml
 
-type Option =
-  atom.Atom
-
-pub fn zip_open(filename: String) -> Result(Handle, String) {
-  atom.from_string("memory")
-  |> result.map(fn(atm) {
-    do_zip_open(string.to_utf_codepoints(filename), [atm])
-  })
-  |> result.map_error(fn(_) { "Error making atom" })
-  |> result.flatten
+pub fn scan_string(line: String) -> #(Xml, String) {
+  do_scan_string(string.to_utf_codepoints(line))
+  |> pair.map_second(string.from_utf_codepoints)
 }
 
-@external(erlang, "zip", "zip_open")
-pub fn do_zip_open(
-  filename: List(UtfCodepoint),
-  options: List(Option),
-) -> Result(Handle, String)
+@external(erlang, "xmerl_scan", "string")
+fn do_scan_string(string: List(UtfCodepoint)) -> #(Xml, List(UtfCodepoint))
 
-pub type ZipFile {
-  File(name: String, data: String)
+pub type Any
+
+pub fn xpath_string(xpath: String, doc: Xml) -> Any {
+  xpath
+  |> string.to_utf_codepoints
+  |> do_xpath_string(doc)
 }
 
-pub fn zip_get(filename: String, handle: Handle) -> Result(ZipFile, String) {
-  do_zip_get(string.to_utf_codepoints(filename), handle)
-  |> result.map(fn(data) {
-    File(name: string.from_utf_codepoints(data.0), data: data.1)
-  })
-}
-
-@external(erlang, "zip", "zip_get")
-fn do_zip_get(
-  filename: List(UtfCodepoint),
-  handle: Handle,
-) -> Result(#(List(UtfCodepoint), String), String)
+@external(erlang, "xmerl_xpath", "string")
+fn do_xpath_string(xpath: List(UtfCodepoint), doc: Xml) -> Any

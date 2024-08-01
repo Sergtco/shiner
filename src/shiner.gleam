@@ -1,12 +1,18 @@
+import archive
 import docx
 import gleam/io
 
 pub fn main() {
-  let assert Ok(handle) =
-  docx.zip_open("example.docx")
-  case docx.zip_get("word/document.xml", handle) {
+  let assert Ok(handle) = archive.zip_open("example.docx")
+  case archive.zip_get("word/document.xml", handle) {
     Ok(res) -> {
-      io.debug(res.name)
+      let #(xml, _) =
+        res.data
+        |> docx.scan_string()
+
+      xml
+      |> docx.xpath_string(".//self::w:t", _)
+      |> io.debug
       ""
     }
     Error(err) -> io.debug(err)
