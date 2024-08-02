@@ -1,9 +1,8 @@
-import gleam/io
-import archive
 import gleam/list
 import gleam/result
 import gleam/string
-import xml
+import parser/archive
+import parser/xml
 
 pub type DocError {
   FileNotFound
@@ -36,7 +35,7 @@ pub fn extract_text(xml_data: String) -> List(String) {
   // searches for w:t tag, in which text is located, is suppose?
   |> xml.xpath_string("//w:t", _)
   |> list.map(fn(val) {
-    val.text
+    val.content
     |> list.map(fn(s) {
       s.value
       |> string.from_utf_codepoints

@@ -15,17 +15,17 @@ fn do_scan_string(string: List(UtfCodepoint)) -> #(Xml, List(UtfCodepoint))
 
 pub type NodeEntity {
   XmlElement(
-    tag1: String,
-    tag2: String,
-    tag3: #(String, String),
+    name: String,
+    expanded_name: String,
+    nsifno: #(String, String),
     namespace: XmlNamespace,
     smth: List(#(String, Int)),
     another: Int,
     attributes: XmlAttribute,
-    text: List(XmlText),
-    undef: List(String),
-    path: String,
-    extra: String,
+    content: List(XmlText),
+    lanugage: List(String),
+    xmlbase: String,
+    elementdef: String,
   )
 }
 
@@ -35,11 +35,11 @@ pub type XmlAttribute
 
 pub type XmlText {
   XmlText(
-    attrs: List(#(String, Int)),
-    number: Int,
-    extra: List(String),
+    parents: List(#(String, Int)),
+    pos: Int,
+    lanugage: List(String),
     value: List(UtfCodepoint),
-    attr: Atom,
+    typ: Atom,
   )
 }
 /// Should parse doc by given xpath, but erlang strange records are returned
