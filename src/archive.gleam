@@ -8,7 +8,7 @@ type Option =
   atom.Atom
 
 /// Opens and reads archive to get handle with useful info for library
-pub fn zip_open(filename: String) -> Result(Handle, String) {
+pub fn zip_open(filename filename: String) -> Result(Handle, String) {
   atom.from_string("memory")
   |> result.map(fn(atm) {
     do_zip_open(string.to_utf_codepoints(filename), [atm])
@@ -28,8 +28,8 @@ pub type ZipFile {
 }
 
 pub fn zip_get(
-  filename: String,
-  handle: Handle,
+  filename filename: String,
+  handle handle: Handle,
 ) -> Result(ZipFile, String) {
   do_zip_get(string.to_utf_codepoints(filename), handle)
   |> result.map(fn(data) {

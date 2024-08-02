@@ -9,12 +9,6 @@ pub fn main() {
   gleeunit.main()
 }
 
-// gleeunit test functions end in `_test`
-pub fn hello_world_test() {
-  1
-  |> should.equal(1)
-}
-
 pub fn extract_text_test() {
   simplifile.read("./test/document.xml")
   |> result.map(fn(data) {
@@ -25,11 +19,14 @@ pub fn extract_text_test() {
 
 pub fn zip_get_test() {
   archive.zip_open("./test/document.docx")
-  |> result.map(fn(handle){
+  |> result.map(fn(handle) {
     handle
     |> archive.zip_get("word/document.xml", _)
     |> should.be_ok()
-  }
+  })
+}
 
-)
+pub fn parse_document_test() {
+  docx.parse_document("./test/document.docx")
+  |> should.equal(Ok(["Hello", "Hello", "!"]))
 }
