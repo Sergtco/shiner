@@ -19,6 +19,6 @@ Further documentation can be found at <https://hexdocs.pm/shiner>.
 ## Development
 
 ```sh
-gleam run   # Run the project
-gleam test  # Run the tests
+make run
+make test
 ```

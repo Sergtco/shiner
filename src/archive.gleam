@@ -18,13 +18,13 @@ pub fn zip_open(filename: String) -> Result(Handle, String) {
 }
 
 @external(erlang, "zip", "zip_open")
-pub fn do_zip_open(
+fn do_zip_open(
   filename: List(UtfCodepoint),
   options: List(Option),
 ) -> Result(Handle, String)
 
 pub type ZipFile {
-  File(name: String, data: String)
+  ZipFile(name: String, data: String)
 }
 
 pub fn zip_get(
@@ -33,7 +33,7 @@ pub fn zip_get(
 ) -> Result(ZipFile, String) {
   do_zip_get(string.to_utf_codepoints(filename), handle)
   |> result.map(fn(data) {
-    File(name: string.from_utf_codepoints(data.0), data: data.1)
+    ZipFile(name: string.from_utf_codepoints(data.0), data: data.1)
   })
 }
 

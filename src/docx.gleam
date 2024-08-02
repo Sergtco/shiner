@@ -14,7 +14,6 @@ pub fn scan_string(line: String) -> #(Xml, String) {
 @external(erlang, "xmerl_scan", "string")
 fn do_scan_string(string: List(UtfCodepoint)) -> #(Xml, List(UtfCodepoint))
 
-pub type Any
 
 pub type NodeEntity {
   XmlElement(
@@ -46,6 +45,7 @@ pub type XmlText {
   )
 }
 
+///Extracts text from <w:t> tags
 pub fn extract_text(xml_data: String) -> List(String) {
   let #(xml, _) =
     xml_data
